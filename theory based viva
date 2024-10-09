@@ -1,0 +1,22 @@
+Here's a concise overview of the theoretical concepts behind each practical, explained in simple language:
+
+### 1. **Text-to-Speech (gTTS)**
+- **Theory**: Text-to-Speech (TTS) technology converts written text into spoken words. It uses speech synthesis to create natural-sounding audio from text input. This is helpful for making information accessible to people with visual impairments or for creating audio content from text.
+
+### 2. **MIDI File Creation (mido)**
+- **Theory**: MIDI (Musical Instrument Digital Interface) files store music information, like which notes are played, their timing, and how loud they are, rather than actual audio. This makes MIDI files smaller and easier to edit. Musicians can use MIDI to create and modify music using various software and instruments.
+
+### 3. **Image Generation (Diffusers)**
+- **Theory**: Image generation using models like Stable Diffusion involves creating pictures from text descriptions. These models learn from large datasets of images and their associated text to generate new images that match given prompts. This technology combines art and artificial intelligence to produce creative visuals.
+
+### 4. **Neural Style Transfer (TensorFlow Hub)**
+- **Theory**: Neural style transfer is a technique that blends the content of one image with the style of another. It uses deep learning models to analyze both images and produce a new image that maintains the content structure while adopting the artistic style. This is used to create visually appealing artwork or transformations of photos.
+
+### 5. **Text Generation Using LSTM (Keras)**
+- **Theory**: LSTM (Long Short-Term Memory) networks are a type of neural network designed for sequence prediction. They remember information for longer periods, making them suitable for tasks like text generation. The model learns patterns in the text and can generate new text based on what it has learned, similar to how humans can continue a sentence.
+
+### 6. **GANs for Image Generation (PyTorch)**
+- **Theory**: Generative Adversarial Networks (GANs) consist of two neural networks, a generator and a discriminator, that work against each other. The generator creates fake images, while the discriminator tries to determine which images are real and which are fake. Through this competition, both networks improve, leading to the generation of realistic images.
+
+### 7. **Autoencoder for Image Compression (Keras)**
+- **Theory**: An autoencoder is a type of neural network used for compressing data. It consists of two parts: the encoder, which reduces the data to a smaller size (the encoding), and the decoder, which reconstructs the original data from the compressed version. This technique is useful for tasks like image compression, where you want to reduce the file size while retaining as much detail as possible.
