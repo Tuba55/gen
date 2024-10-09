@@ -1,0 +1,81 @@
+# Install the diffusers library
+!pip install diffusers
+
+from diffusers import StableDiffusionPipeline
+import torch
+
+# Load pre-trained Stable Diffusion model
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4")
+pipe.to("cpu")
+
+# Generate an image with a given prompt
+prompt = "Panda in bamboo field"
+image = pipe(prompt).images[0]
+
+# Save the generated image
+image.save("generated_image1.png")
+
+#NEURAL STYLE TRANSFER
+
+# Install necessary libraries for TensorFlow Hub and TensorFlow
+import os
+import tensorflow as tf
+import tensorflow_hub as hub
+import matplotlib.pyplot as plt
+import numpy as np
+import PIL.Image
+
+# Set up TensorFlow Hub model environment
+os.environ['TFHUB_MODEL_LOAD_FORMAT'] = 'COMPRESSED'
+
+# Image Loading Function
+def load_img(path_to_img):
+    max_dim = 512
+    img = tf.io.read_file(path_to_img)
+    if not any(path_to_img.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.bmp']):
+        raise ValueError("Invalid image file format. Supported formats are JPEG, PNG, GIF, and BMP.")
+    img = tf.image.decode_image(img, channels=3)
+    img = tf.image.convert_image_dtype(img, tf.float32)
+    shape = tf.cast(tf.shape(img)[:-1], tf.float32)
+    long_dim = max(shape)
+    scale = max_dim / long_dim
+    new_shape = tf.cast(shape * scale, tf.int32)
+    img = tf.image.resize(img, new_shape)
+    img = img[tf.newaxis, :]
+    return img
+
+# Image Display Function
+def imshow(image, title=None):
+    if len(image.shape) > 3:
+        image = tf.squeeze(image, axis=0)
+    plt.imshow(image)
+    if title:
+        plt.title(title)
+
+# Load content and style images
+content_image = load_img('/content/In His Masterpieces.jpeg')
+style_image = load_img('/content/Winter Wonderland — Shalom Sisters.jpeg')
+
+# Display the images
+plt.subplot(1, 2, 1)
+imshow(content_image, 'Content Image')
+plt.subplot(1, 2, 2)
+imshow(style_image, 'Style Image')
+plt.show()
+
+# Load and apply the style transfer model from TensorFlow Hub
+hub_model = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2')
+stylized_image = hub_model(tf.constant(content_image), tf.constant(style_image))[0]
+
+# Convert Tensor to Image Format
+def tensor_to_image(tensor):
+    tensor = tensor * 255
+    tensor = np.array(tensor, dtype=np.uint8)
+    if np.ndim(tensor) > 3:
+        assert tensor.shape[0] == 1
+        tensor = tensor[0]
+    return PIL.Image.fromarray(tensor)
+
+# Display the stylized image
+result_image = tensor_to_image(stylized_image)
+result_image.show()
